@@ -46,7 +46,4 @@ Dupa ce avem si nodurile arborelui de compresie il vom construi,intr-o maniera a
 Singura diferenta este ca de data aceasta obtinem direct arborele in locul unei reprezentari a acestuia printr-o matrice care retine parcurgerea sa in latime.
 La final,alocam spatiu pentru matricea de pixeli si apelam functia completeaza_matrice care o sa initializeze pixelii cu valorile corespunzatoare din nodurile arborelui de compresie.
 
-In urma evaluarii locale am obtinut 78.5/80 de puncte pe teste si 20 bonus pentru valgrind.
-
-
 
