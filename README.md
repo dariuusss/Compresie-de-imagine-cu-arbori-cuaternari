@@ -1,49 +1,36 @@
 # Compresie-de-imagine-cu-arbori-cuaternari
 
 
-TNod este tipul de date utilizat pentru implementarea arborelui cuaternar.
+TNod is the data type utilized for implementing the quaternary tree.
 
-TMatrice este tipul de date utilizat pentru matricea de pixeli.
+TMatrix is the data type used for the pixel matrix.
 
-Lista este tipul de date utilizat pentru lista de informatii pentru noduri de la cerinta 3.
+List is the data type used for the information list for nodes as per requirement 3.
 
-Functia AlocaNod aloca si initializeaza un nod din arborele cuaternar.
+The AllocateNode function allocates and initializes a node in the quaternary tree.
 
-Functia aloca_element_lista aloca si initializeaza un element din lista de informatii utilizata in cadrul cerintei 3.
+The allocate_list_element function allocates and initializes an element from the information list used within requirement 3.
 
-Functia divide_matrice primeste ca parametri matricea de pixeli,nodul la care ar putea eventual sa ataseze niste fii,
-un indicator pentru fiul corespunzator unei eventuale atasari,factorul de compresie,adresa variabilei in
-care se va retine dimensiunea maxima a unui patrat nedivizat si fisierul de output.Aceasta functie construieste arborele de compresie si calculeaza latura maxima a unui patrat nedivizat si
-scorurile corespunzatoare culorilor,prezentand doua scenarii:nodul curent este terminal sau intern.Daca
-e terminal,nu se mai executa apeluri recursive pentru impartirea matricei de pixeli.Daca nodul este intern,atunci
-se calculeaza 2 indici de mijloc pentru linie,respectiv coloana in zona curenta din matrice si se apeleaza recursiv
-functia de inca 4 ori,fiecare apel fiind corespunzator unui sfert din zona curenta a matricei de pixeli.
+The divide_matrix function takes parameters such as the pixel matrix, the node to which it could potentially attach some children, an indicator for the corresponding child of a possible attachment, the compression factor, the address of the variable where the maximum size of an undivided square will be stored, and the output file. This function constructs the compression tree and calculates the maximum side of an undivided square and the corresponding color scores, presenting two scenarios: the current node is terminal or internal. If it is terminal, no recursive calls are made to divide the pixel matrix. If the node is internal, then 2 midpoint indices for rows and columns are calculated in the current area of the matrix, and the function is recursively called 4 times, each call corresponding to one quarter of the current area of the pixel matrix.
 
-Functia nr_niveluri calculeaza indicele ultimului nivel din arborele de compresie.
+The number_of_levels function calculates the index of the last level in the compression tree.
 
-Functia nr_noduri_terminale numara cate noduri terminale are arborele de compresie.
+The number_of_terminal_nodes function counts the number of terminal nodes in the compression tree.
 
-Functia completeaza_matrice primeste ca parametri dimensiunea matricei de pixeli,matricea de pixeli,
-indicii corespunzatori primei linii,ultimei linii,primei coloane si ultimei coloane din zona curenta a matricei de pixeli si
-nodul din arborele de compresie corespunzator acelei zone din matrice,avand ca efect completarea corespunzatoare a matricei de pixeli pentru imagine.Daca nodul pentru care am apelat functia e terminal,
-atunci toti pixelii din zona curenta din matrice vor avea pe canalele de culoare aceleasi valori ca si nodul mentionat anterior.Daca acesta este intern,
-se imparte recursiv zona curenta in 4 sferturi.
+The fill_matrix function takes parameters such as the size of the pixel matrix, the pixel matrix itself, the indices corresponding to the first row, last row, first column, and last column of the current area of the pixel matrix, and the node from the compression tree corresponding to that area of the matrix, effectively completing the pixel matrix for the image. If the node for which the function is called is terminal, then all pixels in the current area of the matrix will have the same color channel values as the previously mentioned node. If it is internal, the current area is recursively divided into 4 quarters.
 
-Functia sterge_arbore_cuaternar elibereaza memoria alocata pentru arborele cuaternar.Ca sa nu pierdem legaturile catre fii,mai intai stergem toti cei
-4 subarbori ai nodului pentru care am apelat functia si la final il stergem si pe acesta.
+The delete_quaternary_tree function frees the memory allocated for the quaternary tree. To avoid losing connections to children, we first delete all 4 sub-trees of the node for which the function is called, and finally, we delete that node.
 
-Pentru rezolvarea cerintei 1 citim matricea de pixeli,construim arborele de compresie si determinam statisticile cerute.
+For solving requirement 1, we read the pixel matrix, construct the compression tree, and determine the requested statistics.
 
-Pentru rezolvarea cerintei 2 citim matricea de pixeli,construim arborele de compresie si determinam parcurgerea in latime a acestuia.Pentru asta vom construi o matrice de niveluri in care indicele i
-contine toate nodurile de pe nivelul i(radacina e pe nivelul 0).Porim de la nindicele 0,pe care inseram radacina.Pe linia de indice 1 se vor afla fiii radacinii.Pe linia de indice 2 se vor afla toti copiii nodurilor de pe nivelul 1 si tot asa. Cu alte cuvinte,
-pe nivelul k se afla toti copiii nodurilor de pe nivelul k-1,iar numarul total de noduri de pe nivelul k este 4* numarul nodurilor neterminale de pe nivelul k-1.
-La final,parcurgem matricea de niveluri de la stanga la dreapta si de sus in jos si scriem datele nodurilor in fisierul binar cerut.
+For solving requirement 2, we read the pixel matrix, construct the compression tree, and determine its breadth-first traversal. For this, we construct a levels matrix where index i contains all nodes at level i (the root is at level 0). We start from index 0, where we insert the root. On index line 1, we will find the children of the root. On index line 2, we will find all children of nodes at level 1, and so on. In other words, level k contains all children of nodes at level k-1, and the total number of nodes at level k is 4 times the number of non-terminal nodes at level k-1. Finally, we traverse the levels matrix from left to right and top to bottom, writing the node data to the requested binary file.
 
-Pentru rezolvarea cerintei 3 citim datele din fisier si salvam valorile corespunzatoare nodurilor intr-o lista.Daca elementul curent este 0,atunci avem nod intern,il construim si avansam in lista cu o pozitie.
-Daca valoarea curenta este 1,atunci avem nod terminal,il construim si avansam in lista cu 4 pozitii,deoarece urmatoarele 3 sunt valorile culorilor pentru nodul respectiv.Repetam procesul pana cand terminam de parcurs lista.
-Dupa ce am aflat cate noduri avem,repetam procedeul anterior,dar de data aceasta si construim un vector de noduri,care va contine nodurile arborelui de compresie,dar fara legaturi realizate.
-Dupa ce avem si nodurile arborelui de compresie il vom construi,intr-o maniera asemanatoare cu cea utilizata la obtinerea parcurgerii in latime de la cerinta 2:pornim de la radacina,punem fiii acesteia pe urmatorul nivel si repetam procedeul pana cand toate nodurile sunt inserate in arbore.
-Singura diferenta este ca de data aceasta obtinem direct arborele in locul unei reprezentari a acestuia printr-o matrice care retine parcurgerea sa in latime.
-La final,alocam spatiu pentru matricea de pixeli si apelam functia completeaza_matrice care o sa initializeze pixelii cu valorile corespunzatoare din nodurile arborelui de compresie.
+For solving requirement 3, we read the data from the file and save the values corresponding to the nodes in a list. If the current element is 0, then we have an internal node, we construct it, and advance in the list by one position. If the current value is 1, then we have a terminal node, we construct it, and advance in the list by 4 positions, because the next 3 are the color values for that node. We repeat the process until we finish traversing the list. After determining how many nodes we have, we repeat the previous procedure, but this time, we also build a vector of nodes, which will contain the nodes of the compression tree, but without established connections. Once we have the nodes of the compression tree, we build it in a similar manner to obtaining the breadth-first traversal from requirement 2: starting from the root, putting its children at the next level, and repeating the process until all nodes are inserted into the tree. The only difference is that this time we directly obtain the tree instead of a representation of it through a matrix that retains its breadth-first traversal. Finally, we allocate space for the pixel matrix and call the fill_matrix function, which will initialize the pixels with the corresponding values from the nodes of the compression tree.
+
+
+
+
+
+
 
 
